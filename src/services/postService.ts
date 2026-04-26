@@ -13,6 +13,24 @@ export const createPostService = async (title: string, content: string) => {
   return data;
 };
 
+export const getPostsService = async () => {
+  
+  const { data, error } = await postRepository.findAllPosts();
+  
+  if (error) throw new Error(error.message);
+
+  return data;
+};
+
+export const getPostByIdService = async (id: string) => {
+
+  const { data, error } = await postRepository.findPostById(id);
+  
+  if (error) throw new Error(error.message);
+  
+  return data;
+};
+
 export const editPostService = async (id: string, fields: { title?: string; content?: string }) => {
   
   if(!fields.title && !fields.content){
@@ -29,6 +47,6 @@ export const editPostService = async (id: string, fields: { title?: string; cont
 export const deletePostService = async (id: string) => {
 
   const { error } = await postRepository.removePost(id);
-  
+
   if(error)throw new Error(error.message);
 };

@@ -12,6 +12,25 @@ export const createPost = async (req: Request, res: Response) => {
   }
 };
 
+export const getPosts = async (req: Request, res: Response) => {
+  try {
+    const data = await postService.getPostsService();
+    return res.json(data);
+  } catch (error: any) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+export const getPostById = async (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const { id } = req.params;
+    const data = await postService.getPostByIdService(id);
+    return res.json(data);
+  } catch (error: any) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 export const editPost = async (req: Request<{ id: string }>, res: Response) => {
   try{
     const { id } = req.params;

@@ -7,6 +7,21 @@ export const insertPost = async (title: string, content: string) => {
     .select();
 };
 
+export const findAllPosts = async () => {
+  return await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+};
+
+export const findPostById = async (id: string) => {
+  return await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .single();
+};
+
 export const updatePost = async (id: string, fields: { title?: string; content?: string }) => {
   return await supabase
     .from("posts")
