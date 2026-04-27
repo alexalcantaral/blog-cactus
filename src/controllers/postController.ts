@@ -4,29 +4,32 @@ import * as postService from "../services/postService";
 export const createPost = async (req: Request, res: Response) => {
   try{
     const { title, content } = req.body;
-    const data = await postService.createPostService(title, content);
+    const file = req.file!;
+    const data = await postService.createPostService(title, content, file);
     return res.status(201).json(data);
   } 
-  catch(error: any){
+  catch (error: any){
     return res.status(400).json({ error: error.message });
   }
 };
 
 export const getPosts = async (req: Request, res: Response) => {
-  try {
+  try{
     const data = await postService.getPostsService();
     return res.json(data);
-  } catch (error: any) {
+  } 
+  catch (error: any){
     return res.status(400).json({ error: error.message });
   }
 };
 
 export const getPostById = async (req: Request<{ id: string }>, res: Response) => {
-  try {
+  try{
     const { id } = req.params;
     const data = await postService.getPostByIdService(id);
     return res.json(data);
-  } catch (error: any) {
+  } 
+  catch (error: any){
     return res.status(400).json({ error: error.message });
   }
 };

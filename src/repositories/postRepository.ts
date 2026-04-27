@@ -1,9 +1,9 @@
 import { supabase } from "../config/supabase";
 
-export const insertPost = async (title: string, content: string) => {
+export const insertPost = async (title: string, content: string, imageUrl: string) => {
   return await supabase
     .from("posts")
-    .insert([{ title, content }])
+    .insert([{ title, content, image_url: imageUrl }])
     .select();
 };
 

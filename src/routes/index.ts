@@ -2,12 +2,13 @@ import { Router } from "express";
 import { login } from "../controllers/authController";
 import { createPost, getPosts, getPostById, editPost, deletePost } from "../controllers/postController";
 import { authMiddleware } from "../middlewares/auth";
+import { upload } from "../config/storage";
 
 const router = Router();
 
 router.post("/login", login);
 
-router.post("/posts", authMiddleware, createPost);
+router.post("/posts", authMiddleware, upload.single("image"), createPost);
 router.patch("/posts/:id", authMiddleware, editPost);
 router.delete("/posts/:id", authMiddleware, deletePost);
 

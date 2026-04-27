@@ -1,14 +1,19 @@
 import * as postRepository from "../repositories/postRepository";
+import { uploadImage } from "../repositories/storageRepository";
 
-export const createPostService = async (title: string, content: string) => {
-  
-  if(!title || !content){
+export const createPostService = async (title: string, content: string, file: Express.Multer.File) => {
+  if (!title || !content) {
     throw new Error("Título e conteúdo são obrigatórios");
   }
 
-  const { data, error } = await postRepository.insertPost(title, content);
+  if(!file){
+    throw new Error("Imagem é obrigatória");
+  }
 
-  if(error)throw new Error(error.message);
+  const imageUrl = await uploadImage(file);
+
+  const { data, error } = await postRepository.insertPost(title, content, imageUrl);
+  if(error) throw new Error(error.message);
 
   return data;
 };
