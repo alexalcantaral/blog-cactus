@@ -4,7 +4,7 @@ import * as postService from "../services/postService";
 export const createPost = async (req: Request, res: Response) => {
   try{
     const { title, content } = req.body;
-    const file = req.file!;
+    const file = req.file;
     const data = await postService.createPostService(title, content, file);
     return res.status(201).json(data);
   } 

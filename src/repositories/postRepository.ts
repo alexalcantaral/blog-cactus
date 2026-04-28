@@ -1,6 +1,6 @@
 import { supabase } from "../config/supabase";
 
-export const insertPost = async (title: string, content: string, imageUrl: string) => {
+export const insertPost = async (title: string, content: string, imageUrl: string | null) => {
   return await supabase
     .from("posts")
     .insert([{ title, content, image_url: imageUrl }])
