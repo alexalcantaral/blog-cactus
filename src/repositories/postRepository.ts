@@ -10,7 +10,7 @@ export const insertPost = async (title: string, content: string, imageUrl: strin
 export const findAllPosts = async () => {
   return await supabase
     .from("posts")
-    .select("*")
+    .select("id, title, image_url, created_at")
     .order("created_at", { ascending: false });
 };
 
