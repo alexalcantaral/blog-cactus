@@ -31,6 +31,18 @@ export const updatePost = async (id: string, fields: { title?: string; content?:
 };
 
 export const removePost = async (id: string) => {
+  const { data: post } = await supabase
+    .from("posts")
+    .select("image_url")
+    .eq("id", id)
+    .single();
+
+  if(post?.image_url){
+    const fileName = post.image_url.split("/").pop()!;
+    
+    const { data, error } = await supabase.storage.from("images").remove([fileName]);
+  }
+
   return await supabase
     .from("posts")
     .delete()
