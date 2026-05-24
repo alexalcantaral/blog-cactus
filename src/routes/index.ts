@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login } from "../controllers/authController";
 import { createPost, getPosts, getPostById, editPost, deletePost } from "../controllers/postController";
+import { sendContactMessage } from "../controllers/contactEmailController";
 import { authMiddleware } from "../middlewares/auth";
 import { uploadMiddleware } from "../middlewares/upload";
 
@@ -14,5 +15,7 @@ router.delete("/posts/:id", authMiddleware, deletePost);
 
 router.get("/posts", getPosts);
 router.get("/posts/:id", getPostById);
+
+router.post("/email", sendContactMessage);
 
 export default router;
