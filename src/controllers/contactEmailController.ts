@@ -13,7 +13,7 @@ export const sendContactMessage = async (req: Request, res: Response) => {
 
         return res.status(200).json({ message: "Mensagem enviada com sucesso!" });
     } catch (e) {
-        console.error("Erro no controller ao enviar a messagem:", e);
+        // console.error("Erro no controller ao enviar a messagem:", e);
         return res.status(500).json({ error: "Não foi possivel enviar a mensagem no momento." });
     }
 };
