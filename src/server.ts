@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { supabase } from "./config/supabase";
+import { pool } from "./config/database";
 import routes from "./routes";
 
 const app = express();
@@ -10,15 +10,13 @@ app.use(express.json());
 app.use("/api", routes);
 
 app.get("/test", async (req, res) => {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*");
-
-  if(error){
-    return res.status(400).json(error);
+  try{
+    const [rows] = await pool.query("SELECT * FROM posts");
+    return res.json(rows);
   }
-
-  return res.json(data);
+  catch(error: any){
+    return res.status(400).json({ error: error.message });
+  }
 });
 
 app.listen(3000, () => {
