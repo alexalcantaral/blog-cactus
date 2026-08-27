@@ -12,47 +12,38 @@ export const createPostService = async (title: string, content: string, file?: E
     imageUrl = await uploadImage(file);
   }
 
-  const { data, error } = await postRepository.insertPost(title, content, imageUrl);
-  
-  if(error) throw new Error(error.message);
-
-  return data;
+  return await postRepository.insertPost(title, content, imageUrl);
 };
 
 export const getPostsService = async () => {
-  
-  const { data, error } = await postRepository.findAllPosts();
-  
-  if (error) throw new Error(error.message);
-
-  return data;
+  return await postRepository.findAllPosts();
 };
 
 export const getPostByIdService = async (id: string) => {
+  const post = await postRepository.findPostById(id);
 
-  const { data, error } = await postRepository.findPostById(id);
-  
-  if (error) throw new Error(error.message);
-  
-  return data;
+  if(!post){
+    throw new Error("Post não encontrado");
+  }
+
+  return post;
 };
 
 export const editPostService = async (id: string, fields: { title?: string; content?: string }) => {
-  
+
   if(!fields.title && !fields.content){
     throw new Error("Informe ao menos title ou content para atualizar");
   }
-  
-  const { data, error } = await postRepository.updatePost(id, fields);
-  
-  if(error)throw new Error(error.message);
+
+  const data = await postRepository.updatePost(id, fields);
+
+  if(data.length === 0){
+    throw new Error("Post não encontrado");
+  }
 
   return data;
 };
 
 export const deletePostService = async (id: string) => {
-
-  const { error } = await postRepository.removePost(id);
-
-  if(error)throw new Error(error.message);
+  await postRepository.removePost(id);
 };

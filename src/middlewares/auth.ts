@@ -1,8 +1,10 @@
 import { Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import { AuthRequest } from "../types/express";
-import { supabase } from "../config/supabase";
 
-export const authMiddleware = async (
+const JWT_SECRET = process.env.JWT_SECRET!;
+
+export const authMiddleware = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -15,13 +17,12 @@ export const authMiddleware = async (
 
   const token = authHeader.split(" ")[1];
 
-  const { data, error } = await supabase.auth.getUser(token);
-
-  if(error || !data.user){
+  try{
+    const payload = jwt.verify(token, JWT_SECRET) as { sub: string; email: string };
+    req.user = { id: payload.sub, email: payload.email };
+    next();
+  }
+  catch{
     return res.status(401).json({ error: "Token inválido" });
   }
-
-  req.user = data.user;
-
-  next();
 };

@@ -6,18 +6,21 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "create-admin": "node dist/scripts/createAdmin.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.103.0",
+    "basic-ftp": "^5.0.5",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
+    "mysql2": "^3.11.5",
     "nodemailer": "^8.0.7",
     "resend": "^6.12.3"
   },
@@ -25,6 +28,7 @@
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/multer": "^2.1.0",
     "@types/node": "^25.6.0",
     "@types/nodemailer": "^8.0.0",
